@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.28;
 
+import {IETHPower} from "./IETHPower.sol";
+
 //////////////////////////////////////////////////////////////////////
 //                                                                  //
 //                      )   (         )                    (        //
@@ -25,14 +27,11 @@ pragma solidity 0.8.28;
  * 
  * Forced ETH transfers are not credited.
  */
-contract ETHPower {
-    // Mapping of user address to ETHPower balance (1:1 with ETH burned).
+contract ETHPower is IETHPower {
     mapping(address => uint256) private ethPower;
-    
-    // Tracks total ETHPower minted across all users (does not include forced ETH transfers).
+
     uint256 public totalETHPowerMinted;
 
-    // Event emitted when ETHPower is minted.
     event ETHPowerMinted(address indexed sender, address indexed recipient, uint256 amount);
 
     /**
@@ -50,7 +49,7 @@ contract ETHPower {
      * @notice Burns ETH and credits ETHPower to the specified recipient (`to`) in a 1:1 ratio.
      * @param to The address that will be credited with ETHPower.
      */
-    function mintETHPower(address to) external payable {
+    function mintETHPower(address to) external payable override {
         require(msg.value > 0, "Zero ETH");
         ethPower[to] += msg.value;
         totalETHPowerMinted += msg.value;
@@ -62,7 +61,7 @@ contract ETHPower {
      * @param user The address to query.
      * @return The total ETHPower balance of the user.
      */
-    function getETHPowerBalance(address user) external view returns (uint256) {
+    function getETHPowerBalance(address user) external view override returns (uint256) {
         return ethPower[user];
     }
 
@@ -70,16 +69,16 @@ contract ETHPower {
      * @notice Returns the total ETHPower minted across all users.
      * @return The total amount of ETHPower ever created.
      */
-    function getTotalETHPowerMinted() external view returns (uint256) {
+    function getTotalETHPowerMinted() external view override returns (uint256) {
         return totalETHPowerMinted;
     }
 
     /**
      * @notice Returns the amount of ETH that has not been credited as ETHPower, just in
-     * case forced ETH transfers will become possible in the future again.
+     * case forced ETH transfers will be possible again in the future.
      * @return The amount of ETH that is locked in this contract but not credited as ETHPower.
      */
-    function getUnaccountedETH() external view returns (uint256) {
+    function getUnaccountedETH() external view override returns (uint256) {
         return address(this).balance - totalETHPowerMinted;
     }
 }
