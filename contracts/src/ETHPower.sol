@@ -18,9 +18,9 @@ import {IETHPower} from "./IETHPower.sol";
 
 /**
  * @title ETHPower
- * @notice This contract acts as an ETH sink, permanently locking ETH and rewarding users with non-transferrable ETHPower.
- * The ETHPower serves as a verifiable proof of a user's ETH burning.
- * ETHPower is minted at a 1:1 ratio with locked ETH and has 18 decimals.
+ * @notice This contract acts as a global ETH sink, permanently locking ETH and rewarding users
+ * with non-transferrable ETHPower (18 decimals), minted at a 1:1 ratio with locked ETH.
+ * ETHPower serves as a verifiable proof of a user's ETH burning.
  * @dev Applications can integrate by either:
  * 1. Calling mintETHPower() to lock ETH and mint ETHPower to a specified address
  * 2. Sending ETH directly to the contract (with empty calldata) to mint ETHPower to the sender
@@ -29,10 +29,7 @@ import {IETHPower} from "./IETHPower.sol";
  */
 contract ETHPower is IETHPower {
     mapping(address => uint256) private ethPower;
-
     uint256 public totalETHPowerMinted;
-
-    event ETHPowerMinted(address indexed sender, address indexed recipient, uint256 amount);
 
     /**
      * @notice Fallback function to allow direct ETH transfers.

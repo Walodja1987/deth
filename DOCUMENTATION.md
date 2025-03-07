@@ -4,6 +4,8 @@
 
 ETHPower is a simple contract that allows users to burn ETH and receive ETHPower in return.
 
+Only on Ethereum. Acts as the source of truth for burnt ETH.
+
 ## But Why?
 
 
