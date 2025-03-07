@@ -3,33 +3,37 @@ pragma solidity 0.8.28;
 
 import {IETHPower} from "./IETHPower.sol";
 
-//////////////////////////////////////////////////////////////////////
-//                                                                  //
-//                      )   (         )                    (        //
-//           *   )   ( /(   )\ )   ( /(    (  (            )\ )     //
-//    (    ` )  /(   )\()) (()/(   )\())   )\))(   ' (    (()/(     //
-//    )\    ( )(_)) ((_)\   /(_)) ((_)\   ((_)()\ )  )\    /(_))    //
-//   ((_)  (_(_())   _((_) (_))     ((_)  _(())\_)()((_)  (_))      //
-//   | __| |_   _|  | || | | _ \   / _ \  \ \((_)/ /| __| | _ \     //
-//   | _|    | |    | __ | |  _/  | (_) |  \ \/\/ / | _|  |   /     //
-//   |___|   |_|    |_||_| |_|     \___/    \_/\_/  |___| |_|_\     //
-//                                                                  //
-//////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////
+//                                                                 //
+//                      )   (         )                    (       //
+//           *   )   ( /(   )\ )   ( /(    (  (            )\ )    //
+//    (    ` )  /(   )\()) (()/(   )\())   )\))(   ' (    (()/(    //
+//    )\    ( )(_)) ((_)\   /(_)) ((_)\   ((_)()\ )  )\    /(_))   //
+//   ((_)  (_(_())   _((_) (_))     ((_)  _(())\_)()((_)  (_))     //
+//   | __| |_   _|  | || | | _ \   / _ \  \ \((_)/ /| __| | _ \    //
+//   | _|    | |    | __ | |  _/  | (_) |  \ \/\/ / | _|  |   /    //
+//   |___|   |_|    |_||_| |_|     \___/    \_/\_/  |___| |_|_\    //
+//                                                                 //
+/////////////////////////////////////////////////////////////////////
 
 /**
  * @title ETHPower
+ * @author Wladimir Weinbender
  * @notice This contract acts as a global ETH sink, permanently locking ETH and rewarding users
- * with non-transferrable ETHPower (18 decimals), minted at a 1:1 ratio with locked ETH.
- * ETHPower serves as a verifiable proof of a user's ETH burning.
+ * with non-transferrable ETHPower (18 decimals), credited at a 1:1 ratio.
+ * 
+ * ETHPower serves as a verifiable proof of a user's ETH burning which can be used by applications
+ * as a basis to reward users in many different ways.
+ * 
  * @dev Applications can integrate by either:
- * 1. Calling mintETHPower() to lock ETH and mint ETHPower to a specified address
- * 2. Sending ETH directly to the contract (with empty calldata) to mint ETHPower to the sender
+ * 1. Calling burnAndCredit() to lock ETH and credit ETHPower to a specified address.
+ * 2. Sending ETH directly to the contract (with empty calldata) to credit ETHPower to the sender.
  * 
  * Forced ETH transfers are not credited.
  */
 contract ETHPower is IETHPower {
     mapping(address => uint256) private ethPower;
-    uint256 public totalETHPowerMinted;
+    uint256 public totalBurned;
 
     /**
      * @notice Fallback function to allow direct ETH transfers.
@@ -38,45 +42,45 @@ contract ETHPower is IETHPower {
     receive() external payable {
         require(msg.value > 0, "Zero ETH");
         ethPower[msg.sender] += msg.value;
-        totalETHPowerMinted += msg.value;
-        emit ETHPowerMinted(msg.sender, msg.sender, msg.value);
+        totalBurned += msg.value;
+        emit ETHPowerCredited(msg.sender, msg.sender, msg.value);
     }
 
     /**
      * @notice Burns ETH and credits ETHPower to the specified recipient (`to`) in a 1:1 ratio.
      * @param to The address that will be credited with ETHPower.
      */
-    function mintETHPower(address to) external payable override {
+    function burnAndCredit(address ethPowerRecipient) external payable override {
         require(msg.value > 0, "Zero ETH");
-        ethPower[to] += msg.value;
-        totalETHPowerMinted += msg.value;
-        emit ETHPowerMinted(msg.sender, to, msg.value);
+        ethPower[ethPowerRecipient] += msg.value;
+        totalBurned += msg.value;
+        emit ETHPowerCredited(msg.sender, ethPowerRecipient, msg.value);
     }
 
     /**
-     * @notice Returns the ETHPower balance of a user.
+     * @notice Returns the total ETH amount burned by the specified `user` (equivalent to ETHPower credited to `user`).
      * @param user The address to query.
      * @return The total ETHPower balance of the user.
      */
-    function getETHPowerBalance(address user) external view override returns (uint256) {
+    function burned(address user) external view override returns (uint256) {
         return ethPower[user];
     }
 
     /**
-     * @notice Returns the total ETHPower minted across all users.
-     * @return The total amount of ETHPower ever created.
+     * @notice Returns the total ETH amount burned across all users (equivalent to total ETHPower credited).
+     * @return The total amount of ETH ever burned.
      */
-    function getTotalETHPowerMinted() external view override returns (uint256) {
-        return totalETHPowerMinted;
+    function totalBurned() external view override returns (uint256) {
+        return totalBurned;
     }
 
     /**
-     * @notice Returns the amount of ETH that has not been credited as ETHPower, just in
-     * case forced ETH transfers will be possible again in the future.
+     * @notice Returns the amount of ETH that is locked in this contract but not credited as ETHPower.
+     * @dev Added in case forced ETH transfers will become possible again.
      * @return The amount of ETH that is locked in this contract but not credited as ETHPower.
      */
-    function getUnaccountedETH() external view override returns (uint256) {
-        return address(this).balance - totalETHPowerMinted;
+    function excessETH() external view override returns (uint256) {
+        return address(this).balance - totalBurned;
     }
 }
 

@@ -2,10 +2,10 @@
 pragma solidity 0.8.28;
 
 interface IETHPower {
-    event ETHPowerMinted(address indexed sender, address indexed recipient, uint256 amount);
+    event ETHPowerCredited(address indexed sender, address indexed recipient, uint256 amount);
 
-    function mintETHPower(address to) external payable;
-    function getETHPowerBalance(address user) external view returns (uint256);
-    function getTotalETHPowerMinted() external view returns (uint256);
-    function getUnaccountedETH() external view returns (uint256);
+    function burnAndCredit(address ethPowerRecipient) external payable;
+    function burned(address user) external view returns (uint256);
+    function totalBurned() external view returns (uint256);
+    function excessETH() external view returns (uint256);
 }
