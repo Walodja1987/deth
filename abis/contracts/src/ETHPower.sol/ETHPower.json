@@ -1,0 +1,8 @@
+[
+  "event ETHPowerMinted(address indexed,address indexed,uint256)",
+  "function getETHPowerBalance(address) view returns (uint256)",
+  "function getTotalETHPowerMinted() view returns (uint256)",
+  "function getUnaccountedETH() view returns (uint256)",
+  "function mintETHPower(address) payable",
+  "function totalETHPowerMinted() view returns (uint256)"
+]
