@@ -1,7 +1,7 @@
 {
   "name": "deth",
   "version": "1.0.0",
-  "description": "A Global ETH Burn Registry.",
+  "description": "A Global ETH Sink and Burn Attestation Registry.",
   "keywords": [
     "deth",
     "burn",

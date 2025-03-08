@@ -19,13 +19,12 @@ import {IDETH} from "./IDETH.sol";
 /**
  * @title DETH - A Global ETH Burn Registry
  * @author Wladimir Weinbender
- * @notice This contract acts as a global ETH sink that permanently locks ETH and issues verifiable
- * proof of burn in the form of non-transferrable DETH credits, minted at a 1:1 ratio.
- * Applications that require users to burn ETH in exchange for assets or other utilities can integrate DETH
- * to attest the burn.
+ * @notice This contract serves as a global ETH sink and burn attestation registry. ETH sent to this
+ * contract is permanently locked and a verifiable proof of burn is issued to the sender or designated
+ * recipient in the form of non-transferrable DETH credits, minted at a 1:1 ratio.
  * @dev Applications can integrate by either:
- * 1. Calling `burn(dethRecipient)` to lock ETH and credit DETH to a specified address.
- * 2. Sending ETH directly to the contract (with empty calldata) to credit DETH to the sender.
+ * 1. Calling `burn(dethRecipient)` to burn ETH and credit DETH to the specified recipient.
+ * 2. Sending ETH directly to the contract (with empty calldata) to credit DETH to `msg.sender`.
  * 
  * Forced ETH transfers are not credited.
  */
@@ -41,7 +40,7 @@ contract DETH is IDETH {
 
     /**
      * @notice Fallback function to allow direct ETH transfers. Credits DETH to `msg.sender`.
-     * @dev `msg.data` must be empty to succeed. 
+     * @dev `msg.data` must be empty. 
      */
     receive() external payable {
         _burn(msg.sender);

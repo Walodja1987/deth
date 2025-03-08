@@ -1,4 +1,4 @@
-# DETH - A Global ETH Burn Registry
+# DETH - A Global ETH Sink and Burn Attestation Registry
 ```
 ///////////////////////////////////////
 //                                   //  
@@ -19,7 +19,7 @@ Burning ETH in exchange for assets or other utilities - such as NFTs, governance
 
 DETH was created to serve as a **global ETH sink and burn attestation registry**, eliminating the need for each application to implement its own burn-tracking mechanism. ETH sent to the DETH contract is permanently locked and a verifiable **proof of burn** is issued to the sender or designated recipient in the form of **non-transferrable DETH credits**, minted at a 1:1 ratio.
 
-These attestations can support sybil resistance, optimize reward distribution (e.g., airdrops), enhance governance models, and enable new innovations.
+These attestations can be used in sybil resistance systems, reward distributions (e.g., airdrops), governance, and other innovations.
 
 ## Usage
 
@@ -72,28 +72,46 @@ The DETH contract is deployed on Ethereum at the following address:
 
 ## Functions
 
-### `burn(dethRecipient)`
+### `burn`
 
 ```solidity
 function burn(address dethRecipient) external payable;
 ```
 
-Burns ETH and credits DETH to the specified recipient (`dethRecipient`). Emits an `ETHBurned` event with the user burning ETH (`msg.sender` ), the DETH credits recipient (`dethRecipient`) and the amount of ETH burned. Does not revert on zero amount.
+Burns ETH and credits DETH to the specified recipient. Emits an [`ETHBurned` event](#ethburned). Does not revert on zero amount.
 
 ### Direct ETH Burning
 
-The contract accepts direct ETH transfers with empty calldata, automatically crediting DETH to the sender. This provides a simpler way for users to burn ETH directly. Does not revert on zero amount.
-
-### View Functions
-
-- `burned(address)`: Returns the total ETH burned by a specific address
-- `totalBurned()`: Returns the total ETH burned across all users
-
-## Integration
-
-Applications can integrate DETH in two ways:
-1. Call `burn(dethRecipient)` with ETH to credit DETH to any address
-2. Send ETH directly to the contract to credit DETH to the sender
+The contract accepts direct ETH transfers with empty calldata, automatically crediting DETH to the `msg.sender`. Does not revert on zero amount.
 
 > **Note:** Forced ETH transfers are not credited as DETH.
 
+## View Functions
+
+### `burned`
+
+```solidity
+function burned(address user) external view returns (uint256);
+```
+
+Returns the total ETH burned by a specific address. Expressed as an integer with 18 decimals.
+
+### `totalBurned`
+
+```solidity
+function totalBurned() external view returns (uint256);
+```
+
+Returns the total ETH burned across all users. Expressed as an integer with 18 decimals.
+
+## Events
+
+### `ETHBurned`
+
+```solidity
+event ETHBurned(
+    address indexed sender,         // The address that is sending and burning ETH
+    address indexed dethRecipient,  // The address that will receive DETH credits
+    uint256 amount                  // The amount of ETH burned (equal to the amount of DETH credits minted)
+);
+```
