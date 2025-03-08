@@ -82,7 +82,7 @@ Burns ETH and credits DETH to the specified recipient. Emits an [`ETHBurned` eve
 
 ### Direct ETH Burning
 
-The contract accepts direct ETH transfers with empty calldata, automatically crediting DETH to the `msg.sender`. Does not revert on zero amount.
+The contract accepts direct ETH transfers with empty calldata, automatically crediting DETH to the `msg.sender`. `msg.data` must be empty to succeed. Does not revert on zero amount.
 
 > **Note:** Forced ETH transfers are not credited as DETH.
 
