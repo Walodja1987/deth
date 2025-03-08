@@ -21,7 +21,7 @@ DETH was created to serve as a **global ETH sink and burn attestation registry**
 
 These attestations can be used in sybil resistance systems, reward distributions (e.g., airdrops), governance, and other innovations.
 
-## Usage
+## 🔥 Usage
 
 The example below demonstrates a real-world use case where a user burns ETH to mint an NFT. Since the burn is recorded in the DETH contract, other projects can later use these attestations for airdrop allocations, governance weight, or exclusive access.
 
@@ -62,13 +62,13 @@ contract BurnerNFT is ERC721 {
 }
 ```
 
-## Address
+## 🔗 Address
 
 The DETH contract is deployed on Ethereum at the following address: [0xE46861C9f28c46F27949fb471986d59B256500a7](https://etherscan.io/address/0xE46861C9f28c46F27949fb471986d59B256500a7)
 
 <!-- [Contract deployment transaction](https://etherscan.io/tx/0x636bfd0543de9b79f6b0cab79059ff67df39b3f71f7065b211204fac9a06a57c) -->
 
-## Functions
+## ✨ Functions
 
 ### `burn`
 
@@ -102,7 +102,7 @@ function totalBurned() external view returns (uint256);
 
 Returns the total ETH burned across all users. Expressed as an integer with 18 decimals.
 
-## Events
+## 🔍 Events
 
 ### `ETHBurned`
 
