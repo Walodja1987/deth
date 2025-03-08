@@ -17,19 +17,14 @@ import {IDETH} from "./IDETH.sol";
 ///////////////////////////////////////
 
 /**
- * @title DETH
+ * @title DETH - A Global ETH Burn Registry
  * @author Wladimir Weinbender
- * @notice This contract acts as a global ETH sink, permanently locking ETH and rewarding users
- * with non-transferrable DETH credits issued at a 1:1 ratio (18 decimals).
- * By burning ETH through DETH, users contribute to Ethereum's deflationary mechanism and ETH's
- * value accrual.
- * 
- * Applications can leverage these verifiable burns for asset purchases, reward mechanisms,
- * governance systems, sybil resistance, proof of commitment or other use cases requiring
- * proof of value destruction.
- * 
+ * @notice This contract acts as a global ETH sink that permanently locks ETH and issues verifiable
+ * proof of burn in the form of non-transferrable DETH credits, minted at a 1:1 ratio.
+ * Applications that require users to burn ETH in exchange for assets or other utilities can integrate DETH
+ * to attest the burn.
  * @dev Applications can integrate by either:
- * 1. Calling burn(dethRecipient) to lock ETH and credit DETH to a specified address.
+ * 1. Calling `burn(dethRecipient)` to lock ETH and credit DETH to a specified address.
  * 2. Sending ETH directly to the contract (with empty calldata) to credit DETH to the sender.
  * 
  * Forced ETH transfers are not credited.
@@ -38,14 +33,18 @@ contract DETH is IDETH {
     mapping(address => uint256) private _burned;
     uint256 private _totalBurned;
 
+    function _burn(address dethRecipient) private {
+        _burned[dethRecipient] += msg.value;
+        _totalBurned += msg.value;
+        emit ETHBurned(msg.sender, dethRecipient, msg.value);
+    }
+
     /**
      * @notice Fallback function to allow direct ETH transfers. Credits DETH to `msg.sender`.
      * @dev `msg.data` must be empty to succeed. 
      */
     receive() external payable {
-        _burned[msg.sender] += msg.value;
-        _totalBurned += msg.value;
-        emit ETHBurned(msg.sender, msg.sender, msg.value);
+        _burn(msg.sender);
     }
 
     /**
@@ -53,9 +52,7 @@ contract DETH is IDETH {
      * @param dethRecipient The address that will be credited with DETH.
      */
     function burn(address dethRecipient) external payable override {
-        _burned[dethRecipient] += msg.value;
-        _totalBurned += msg.value;
-        emit ETHBurned(msg.sender, dethRecipient, msg.value);
+        _burn(dethRecipient);
     }
 
     /**
@@ -73,15 +70,6 @@ contract DETH is IDETH {
      */
     function totalBurned() external view override returns (uint256) {
         return _totalBurned;
-    }
-
-    /**
-     * @notice Returns the amount of ETH that is locked in this contract but not credited as DETH.
-     * @dev Could be positive if forced ETH transfers become possible again (eg., through future protocol changes).
-     * @return The amount of ETH that is locked in this contract but not credited as DETH.
-     */
-    function excessETH() external view override returns (uint256) {
-        return address(this).balance - _totalBurned;
     }
 }
 

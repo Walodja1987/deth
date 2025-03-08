@@ -7,5 +7,4 @@ interface IDETH {
     function burn(address dethRecipient) external payable;
     function burned(address user) external view returns (uint256);
     function totalBurned() external view returns (uint256);
-    function excessETH() external view returns (uint256);
 }

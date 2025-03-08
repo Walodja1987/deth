@@ -1,20 +1,20 @@
 {
-  "name": "ethpower",
+  "name": "deth",
   "version": "1.0.0",
-  "description": "Gain ETHPower by burning ETH.",
+  "description": "A Global ETH Burn Registry.",
   "keywords": [
-    "ethpower",
+    "deth",
     "burn",
     "ethereum",
     "smart-contracts"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Walodja1987/ethpower.git"
+    "url": "git+https://github.com/Walodja1987/deth.git"
   },
-  "homepage": "https://github.com/Walodja1987/ethpower#readme",
+  "homepage": "https://github.com/Walodja1987/deth#readme",
   "bugs": {
-    "url": "https://github.com/Walodja1987/ethpower/issues"
+    "url": "https://github.com/Walodja1987/deth/issues"
   },
   "author": "Wladimir Weinbender",
   "license": "MIT",

@@ -1,4 +1,4 @@
-# DETH
+# DETH - A Global ETH Burn Registry
 ```
 ///////////////////////////////////////
 //                                   //  
@@ -13,13 +13,17 @@
 //                                   //
 ///////////////////////////////////////
 ```
-## Overview
+## 🚀 Overview
 
-DETH is a smart contract that enables users to **permanently burn ETH** and receive **verifiable proof** in the form of **non-transferrable DETH credits**, issued at a 1:1 ratio. By burning ETH through DETH, **users contribute to Ethereum's deflationary mechanism and ETH's value accrual**.
+Burning ETH in exchange for assets or other utilities - such as NFTs, governance rights or exclusive memberships - is becoming an increasingly popular concept in the Ethereum ecosystem due to their contribution to Ethereum's deflationary mechanism and ETH's value accrual.
 
-Applications can leverage these verifiable burns for asset purchases, reward mechanisms, governance systems, sybil resistance, proof of commitment or other use cases requiring **proof of value destruction**.
+DETH was created to serve as a **global ETH sink and burn attestation registry**, eliminating the need for each application to implement its own burn-tracking mechanism. ETH sent to the DETH contract is permanently locked and a verifiable **proof of burn** is issued to the sender or designated recipient in the form of **non-transferrable DETH credits**, minted at a 1:1 ratio.
 
-## Demo
+These attestations can support sybil resistance, optimize reward distribution (e.g., airdrops), enhance governance models, and enable new innovations.
+
+## Usage
+
+The example below demonstrates a real-world use case where a user burns ETH to mint an NFT. Since the burn is recorded in the DETH contract, other projects can later use these attestations for airdrop allocations, governance weight, or exclusive access.
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -60,7 +64,7 @@ contract BurnerNFT is ERC721 {
 
 ## Address
 
-The DETH contract is deployed on Ethereum mainnet at the following address:
+The DETH contract is deployed on Ethereum at the following address:
 
 ```
 0x000...000
@@ -70,7 +74,11 @@ The DETH contract is deployed on Ethereum mainnet at the following address:
 
 ### `burn(dethRecipient)`
 
-Burns ETH and credits DETH to the specified recipient (`dethRecipient`). Emits an `ETHBurned` event with `msg.sender`, `dethRecipient` and the amount of ETH burned. Does not revert on zero amount.
+```solidity
+function burn(address dethRecipient) external payable;
+```
+
+Burns ETH and credits DETH to the specified recipient (`dethRecipient`). Emits an `ETHBurned` event with the user burning ETH (`msg.sender` ), the DETH credits recipient (`dethRecipient`) and the amount of ETH burned. Does not revert on zero amount.
 
 ### Direct ETH Burning
 
@@ -80,7 +88,6 @@ The contract accepts direct ETH transfers with empty calldata, automatically cre
 
 - `burned(address)`: Returns the total ETH burned by a specific address
 - `totalBurned()`: Returns the total ETH burned across all users
-- `excessETH()`: Returns any ETH locked in the contract but not credited as DETH (should normally be 0)
 
 ## Integration
 
@@ -88,5 +95,5 @@ Applications can integrate DETH in two ways:
 1. Call `burn(dethRecipient)` with ETH to credit DETH to any address
 2. Send ETH directly to the contract to credit DETH to the sender
 
-> **Note:** Forced ETH transfers (e.g., through SELFDESTRUCT in the past) are not credited as DETH.
+> **Note:** Forced ETH transfers are not credited as DETH.
 
