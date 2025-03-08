@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.28;
 
-interface IETHPower {
-    event ETHPowerCredited(address indexed sender, address indexed recipient, uint256 amount);
+interface IDETH {
+    event ETHBurned(address indexed sender, address indexed dethRecipient, uint256 amount);
 
-    function burnAndCredit(address ethPowerRecipient) external payable;
+    function burnAndCredit(address dethRecipient) external payable;
     function burned(address user) external view returns (uint256);
     function totalBurned() external view returns (uint256);
     function excessETH() external view returns (uint256);

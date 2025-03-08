@@ -1,6 +1,0 @@
-[
-  "function getETHPowerBalance(address) view returns (uint256)",
-  "function getTotalETHPowerMinted() view returns (uint256)",
-  "function getUnaccountedETH() view returns (uint256)",
-  "function mintETHPower(address) payable"
-]

@@ -1,8 +1,8 @@
 /**
- * Deploy ETHPower Contract
+ * Deploy DETH Contract
  *
  * DEPLOYMENT COMMAND (using Sepolia as an example):
- * `npx hardhat run deploy/deployETHPower.ts --network sepolia`
+ * `npx hardhat run deploy/deployDETH.ts --network sepolia`
  *
  * REQUIRED SETUP:
  * Before first deployment, set these environment variables using hardhat-vars:
@@ -28,20 +28,20 @@ function delay(ms: number) {
 }
 
 export default async function main(hre: HardhatRuntimeEnvironment) {
-  console.log("Starting deployment of ETHPower...\n");
+  console.log("Starting deployment of DETH...\n");
 
   // Get the deployer account
   const [deployer] = await hre.ethers.getSigners();
   console.log("Deploying with account:", deployer.address);
 
-  // Deploy ETHPower
-  const ETHPower = await hre.ethers.getContractFactory("ETHPower");
-  const ethPower = await ETHPower.deploy();
-  await ethPower.waitForDeployment();
+  // Deploy DETH
+  const DETH = await hre.ethers.getContractFactory("DETH");
+  const deth = await DETH.deploy();
+  await deth.waitForDeployment();
 
-  const contractAddress = await ethPower.getAddress();
+  const contractAddress = await deth.getAddress();
   console.log(
-    "ETHPower deployed to: " + `${GREEN}${contractAddress}${RESET}\n`
+    "DETH deployed to: " + `${GREEN}${contractAddress}${RESET}\n`
   );
 
   console.log(
