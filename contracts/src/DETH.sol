@@ -32,12 +32,6 @@ contract DETH is IDETH {
     mapping(address => uint256) private _burned;
     uint256 private _totalBurned;
 
-    function _burn(address dethRecipient) private {
-        _burned[dethRecipient] += msg.value;
-        _totalBurned += msg.value;
-        emit ETHBurned(msg.sender, dethRecipient, msg.value);
-    }
-
     /**
      * @notice Fallback function to allow direct ETH transfers. Credits DETH to `msg.sender`.
      * @dev `msg.data` must be empty. 
@@ -69,6 +63,17 @@ contract DETH is IDETH {
      */
     function totalBurned() external view override returns (uint256) {
         return _totalBurned;
+    }
+
+    /**
+     * @notice Private function to burn ETH and credit DETH to the specified `dethRecipient`. Used in
+     * both the `burn` and the `receive` function.
+     * @param dethRecipient The address that will be credited with DETH.
+     */
+    function _burn(address dethRecipient) private {
+        _burned[dethRecipient] += msg.value;
+        _totalBurned += msg.value;
+        emit ETHBurned(msg.sender, dethRecipient, msg.value);
     }
 }
 
