@@ -64,11 +64,9 @@ contract BurnerNFT is ERC721 {
 
 ## Address
 
-The DETH contract is deployed on Ethereum at the following address:
+The DETH contract is deployed on Ethereum at the following address: [0xE46861C9f28c46F27949fb471986d59B256500a7](https://etherscan.io/address/0xE46861C9f28c46F27949fb471986d59B256500a7)
 
-```
-0x000...000
-```
+<!-- [Contract deployment transaction](https://etherscan.io/tx/0x636bfd0543de9b79f6b0cab79059ff67df39b3f71f7065b211204fac9a06a57c) -->
 
 ## Functions
 
