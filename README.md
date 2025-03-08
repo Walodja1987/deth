@@ -15,7 +15,7 @@
 ```
 ## Overview
 
-DETH (Destroyed ETH) is a smart contract that enables users to permanently burn ETH and receive verifiable proof in the form of **non-transferrable DETH credits**, issued at a 1:1 ratio. By burning ETH through DETH, users contribute to Ethereum's deflationary mechanism and ETH's value accrual.
+DETH is a smart contract that enables users to **permanently burn ETH** and receive **verifiable proof** in the form of **non-transferrable DETH credits**, issued at a 1:1 ratio. By burning ETH through DETH, **users contribute to Ethereum's deflationary mechanism and ETH's value accrual**.
 
 Applications can leverage these verifiable burns for asset purchases, reward mechanisms, governance systems, sybil resistance, proof of commitment or other use cases requiring **proof of value destruction**.
 
@@ -50,7 +50,7 @@ contract BurnerNFT is ERC721 {
         require(msg.value == MINT_PRICE, "Wrong ETH amount");
         
         // Burn ETH and credit DETH to the minter
-        deth.burnAndCredit{value: msg.value}(msg.sender);
+        deth.burn{value: msg.value}(msg.sender);
         
         // Mint the NFT
         _mint(msg.sender, nextTokenId++);
@@ -58,20 +58,23 @@ contract BurnerNFT is ERC721 {
 }
 ```
 
+## Address
+
+The DETH contract is deployed on Ethereum mainnet at the following address:
+
+```
+0x000...000
+```
 
 ## Functions
 
-### `burnAndCredit(dethRecipient)`
+### `burn(dethRecipient)`
 
-Mints DETH 1:1 by burning ETH and credits it to the specified recipient. This function:
-- Accepts ETH payment
-- Credits DETH to any specified recipient address (`dethRecipient`)
-- Emits a `ETHBurned` event with `msg.sender`, `dethRecipient` and the amount of ETH burned
-- Requires ETH value > 0
+Burns ETH and credits DETH to the specified recipient (`dethRecipient`). Emits an `ETHBurned` event with `msg.sender`, `dethRecipient` and the amount of ETH burned. Does not revert on zero amount.
 
 ### Direct ETH Burning
 
-The contract accepts direct ETH transfers with empty calldata, automatically crediting DETH to the sender. This provides a simpler way for users to burn ETH directly.
+The contract accepts direct ETH transfers with empty calldata, automatically crediting DETH to the sender. This provides a simpler way for users to burn ETH directly. Does not revert on zero amount.
 
 ### View Functions
 
@@ -82,7 +85,7 @@ The contract accepts direct ETH transfers with empty calldata, automatically cre
 ## Integration
 
 Applications can integrate DETH in two ways:
-1. Call `burnAndCredit(recipient)` with ETH to credit DETH to any address
+1. Call `burn(dethRecipient)` with ETH to credit DETH to any address
 2. Send ETH directly to the contract to credit DETH to the sender
 
 > **Note:** Forced ETH transfers (e.g., through SELFDESTRUCT in the past) are not credited as DETH.

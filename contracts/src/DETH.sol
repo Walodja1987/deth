@@ -20,13 +20,16 @@ import {IDETH} from "./IDETH.sol";
  * @title DETH
  * @author Wladimir Weinbender
  * @notice This contract acts as a global ETH sink, permanently locking ETH and rewarding users
- * with non-transferrable DETH credits at a 1:1 ratio (18 decimals).
+ * with non-transferrable DETH credits issued at a 1:1 ratio (18 decimals).
+ * By burning ETH through DETH, users contribute to Ethereum's deflationary mechanism and ETH's
+ * value accrual.
  * 
- * DETH serves as a verifiable proof of a user's ETH burning which can be used by applications
- * to reward users in many different ways.
+ * Applications can leverage these verifiable burns for asset purchases, reward mechanisms,
+ * governance systems, sybil resistance, proof of commitment or other use cases requiring
+ * proof of value destruction.
  * 
  * @dev Applications can integrate by either:
- * 1. Calling burnAndCredit() to lock ETH and credit DETH to a specified address.
+ * 1. Calling burn(dethRecipient) to lock ETH and credit DETH to a specified address.
  * 2. Sending ETH directly to the contract (with empty calldata) to credit DETH to the sender.
  * 
  * Forced ETH transfers are not credited.
@@ -40,7 +43,6 @@ contract DETH is IDETH {
      * @dev `msg.data` must be empty to succeed. 
      */
     receive() external payable {
-        require(msg.value > 0, "Zero ETH");
         _burned[msg.sender] += msg.value;
         _totalBurned += msg.value;
         emit ETHBurned(msg.sender, msg.sender, msg.value);
@@ -50,8 +52,7 @@ contract DETH is IDETH {
      * @notice Burns ETH and credits DETH to the specified `dethRecipient` at a 1:1 ratio.
      * @param dethRecipient The address that will be credited with DETH.
      */
-    function burnAndCredit(address dethRecipient) external payable override {
-        require(msg.value > 0, "Zero ETH");
+    function burn(address dethRecipient) external payable override {
         _burned[dethRecipient] += msg.value;
         _totalBurned += msg.value;
         emit ETHBurned(msg.sender, dethRecipient, msg.value);
