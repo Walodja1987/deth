@@ -15,11 +15,11 @@
 ```
 ## 🚀 Overview
 
-Burning ETH in exchange for assets or other utilities - such as NFTs, governance rights or exclusive memberships - is becoming an increasingly popular concept in the Ethereum ecosystem due to their contribution to Ethereum's deflationary mechanism and ETH's value accrual.
+Burn-to-Own models where users burn ETH in exchange for assets or other utilities - such as NFTs, governance rights or exclusive memberships - are becoming an increasingly popular concept in the Ethereum ecosystem due to their contribution to Ethereum's deflationary mechanism and ETH's value accrual.
 
 DETH was created to serve as a **global ETH sink and burn attestation registry**, eliminating the need for each application to implement its own burn-tracking mechanism. ETH sent to the DETH contract is permanently locked and a verifiable **proof of burn** is issued to the sender or designated recipient in the form of **non-transferrable DETH credits**, minted at a 1:1 ratio.
 
-These attestations can be used in sybil resistance systems, reward distributions (e.g., airdrops), governance, and other innovations.
+These attestations can be used in downstream applications including sybil resistance systems, reward distributions (e.g., airdrops), governance, and other innovations.
 
 ## 🔥 Usage
 
