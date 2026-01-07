@@ -68,7 +68,7 @@ The DETH contract is deployed on Ethereum at the following address: [0xE46861C9f
 
 <!-- [Contract deployment transaction](https://etherscan.io/tx/0x636bfd0543de9b79f6b0cab79059ff67df39b3f71f7065b211204fac9a06a57c) -->
 
-For testing purposes, you can use the deployed contract on Sepolia at: [0x85365Ec5006e53d17C209E2E7A6af8D0050ceceF](https://sepolia.etherscan.io/address/0x85365Ec5006e53d17C209E2E7A6af8D0050ceceF)
+For testing purposes, you can use the deployed contract on Sepolia at: [0xeD204c6698167dB50c4da2AC23Fad8F59dc9087A](https://sepolia.etherscan.io/address/0xeD204c6698167dB50c4da2AC23Fad8F59dc9087A)
 
 ## ✨ Functions
 
