@@ -3,7 +3,7 @@ import { HardhatUserConfig, task, vars } from "hardhat/config";
 import "@nomicfoundation/hardhat-ethers";
 import "@nomicfoundation/hardhat-verify";
 import "@nomicfoundation/hardhat-ledger";
-// import "@nomicfoundation/hardhat-foundry";
+import "@nomicfoundation/hardhat-foundry";
 import "@nomicfoundation/hardhat-chai-matchers";
 import "@nomicfoundation/hardhat-ignition-ethers";
 import "@typechain/hardhat";
