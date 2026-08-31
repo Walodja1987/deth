@@ -64,11 +64,12 @@ contract BurnerNFT is ERC721 {
 
 ## 🔗 Address
 
-The DETH contract is deployed on Ethereum at the following address: [0xE46861C9f28c46F27949fb471986d59B256500a7](https://etherscan.io/address/0xE46861C9f28c46F27949fb471986d59B256500a7)
+| Network | Address | XBAN |
+| --- | --- | --- |
+| Ethereum | [0xE46861C9f28c46F27949fb471986d59B256500a7](https://etherscan.io/address/0xE46861C9f28c46F27949fb471986d59B256500a7) | XE 82 0000 0000 0000 0006 |
+| Sepolia | [0xeD204c6698167dB50c4da2AC23Fad8F59dc9087A](https://sepolia.etherscan.io/address/0xeD204c6698167dB50c4da2AC23Fad8F59dc9087A) | XE 28 0000 0000 0000 0008 |
 
 <!-- [Contract deployment transaction](https://etherscan.io/tx/0x636bfd0543de9b79f6b0cab79059ff67df39b3f71f7065b211204fac9a06a57c) -->
-
-For testing purposes, you can use the deployed contract on Sepolia at: [0xeD204c6698167dB50c4da2AC23Fad8F59dc9087A](https://sepolia.etherscan.io/address/0xeD204c6698167dB50c4da2AC23Fad8F59dc9087A)
 
 ## ✨ Functions
 
